@@ -11,9 +11,14 @@ http.createServer((request, response) => {
         request.on('data', function (chunk) {
             buff += chunk
         })
+
+        request.on('end', function () {
+            console.log(`Body: ${buff}`);
+            response.end('\nAccepted body\n\n')
+        })
+    } else {
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+        response.end('Hello World\n');
     }
 
-    request.on('end', function () {
-        console.log(`Body: ${buff}`);
-    })
-});
+}).listen(port);
